@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Polaroid A4</title>
+
+<style>
+@page {
+    size: A4;
+    margin: 0;
+}
+
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#e6e6e6;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+/* Folha A4 */
+.a4{
+    width:210mm;
+    height:297mm;
+    background:white;
+    padding:15mm;
+    box-sizing:border-box;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:1fr 1fr;
+    gap:15mm;
+}
+
+/* Responsivo para tela */
+@media screen{
+    .a4{
+        width:95%;
+        height:auto;
+        aspect-ratio:210/297;
+        margin-top:20px;
+    }
+}
+
+.box{
+    border:5px solid black;
+    border-radius:0; /* QUADRADO */
+    overflow:hidden;
+    position:relative;
+    background:white;
+}
+
+.box img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:none;
+}
+
+.box label{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    color:#888;
+    font-size:14px;
+    text-align:center;
+}
+
+input[type="file"]{
+    position:absolute;
+    opacity:0;
+    width:100%;
+    height:100%;
+    cursor:pointer;
+}
+
+button{
+    margin:25px;
+    padding:14px 40px;
+    font-size:18px;
+    border:none;
+    border-radius:10px;
+    background:black;
+    color:white;
+    cursor:pointer;
+}
+
+@media print{
+    button{
+        display:none;
+    }
+    body{
+        background:white;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="a4">
+
+    <div class="box">
+        <label>
+            Toque para adicionar imagem
+            <input type="file" accept="image/*" onchange="loadImage(event, 'img0')">
+        </label>
+        <img id="img0">
+    </div>
+
+    <div class="box">
+        <label>
+            Toque para adicionar imagem
+            <input type="file" accept="image/*" onchange="loadImage(event, 'img1')">
+        </label>
+        <img id="img1">
+    </div>
+
+    <div class="box">
+        <label>
+            Toque para adicionar imagem
+            <input type="file" accept="image/*" onchange="loadImage(event, 'img2')">
+        </label>
+        <img id="img2">
+    </div>
+
+    <div class="box">
+        <label>
+            Toque para adicionar imagem
+            <input type="file" accept="image/*" onchange="loadImage(event, 'img3')">
+        </label>
+        <img id="img3">
+    </div>
+
+</div>
+
+<button onclick="window.print()">Imprimir A4</button>
+
+<script>
+function loadImage(event, imgId){
+    const file = event.target.files[0];
+    if(file){
+        const reader = new FileReader();
+        reader.onload = function(e){
+            const img = document.getElementById(imgId);
+            img.src = e.target.result;
+            img.style.display = "block";
+            event.target.parentElement.style.display = "none";
+        }
+        reader.readAsDataURL(file);
+    }
+}
+</script>
+
+</body>
+</html>
